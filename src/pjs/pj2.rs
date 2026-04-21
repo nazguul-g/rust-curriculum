@@ -1,6 +1,6 @@
 use std::io::{Write, stdin, stdout};
 use std::process::{Command, ExitStatus};
-use std::{io, result};
+use std::{io};
 
 pub fn temp_converter() -> io::Result<()> {
     let mut string = String::new();

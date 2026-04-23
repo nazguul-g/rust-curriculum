@@ -1,9 +1,17 @@
 use std::fs::File;
-use std::io;
-use std::io::Read;
+use std::{env, io};
+use std::io::{Error, ErrorKind, Read};
+
 
 pub fn word_counter () -> io::Result<()> {
-    let mut file = File::open("words_for_pj5.txt")?;
+    let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+        println!("the usage is : cargo run <file_path>");
+        return Err(Error::new(ErrorKind::InvalidInput,"invalid input"))
+    }
+    let filepath = &args[1];
+    println!("{:?}",args);
+    let mut file = File::open(filepath)?;
     let mut f = String::new();
     file.read_to_string(&mut f )?;
     let words = f.split_whitespace().count();

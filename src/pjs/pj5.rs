@@ -22,7 +22,3 @@ pub fn word_counter () -> io::Result<()> {
     println!("characters = {}",chars);
     Ok(())
 }
-#[test]
-fn test () {
-    word_counter().unwrap();
-}

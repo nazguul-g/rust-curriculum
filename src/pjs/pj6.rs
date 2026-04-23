@@ -87,7 +87,7 @@ pub fn bmi_calculator() -> io::Result<()> {
     };
     let bfp = (1.20 * bmi) + (0.23 * index.age as f32) - (10.8 * gender as f32) - 5.4;
     println!(
-        "your body BMI is , {:?} . with overral body fat {:.1}",
+        "your body BMI is , {:?} . with overall body fat {:.1}%",
         body_estimation, bfp
     );
     Ok(())

@@ -1,1 +1,1 @@
-### this repo contains projects proposed by microsoft rust learning
+### this repo contains projects proposed by microsoft rust learning repo

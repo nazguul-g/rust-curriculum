@@ -13,3 +13,4 @@ pub mod pj11_basic_time_tool;
 pub mod pj12_rock_paper_scissors;
 pub mod pj13_json_parser;
 pub mod pj14_file_reader_cli;
+pub mod pj15_memory_management;

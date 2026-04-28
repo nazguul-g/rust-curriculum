@@ -34,13 +34,16 @@ pub fn memory_mgmt() {
     println!("📦 Boxed value: {}", boxed);
 
     // Rc (reference-counted pointer)
+    // allow multiple references point at same data , with keep counter if counter reaches 0 (no one using it ) the pointer is dropped 
     let rc_val = Rc::new(String::from("Shared"));
     let rc_clone = Rc::clone(&rc_val);
     println!("📚 Rc values: {}, {}", rc_val, rc_clone);
     println!("Ref count: {}", Rc::strong_count(&rc_val));
 
     // RefCell (interior mutability)
+    // so this means even if we dont mutate   , the refceel still can change , and makes the checks at runtime not compile time
     let cell = RefCell::new(100);
+    // We just changed the data inside an immutable variable.
     *cell.borrow_mut() += 50;
     println!("🧪 RefCell value: {}", cell.borrow());
 }

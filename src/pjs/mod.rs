@@ -14,3 +14,4 @@ pub mod pj12_rock_paper_scissors;
 pub mod pj13_json_parser;
 pub mod pj14_file_reader_cli;
 pub mod pj15_memory_management;
+pub mod pj16_string_manipulation_tool;

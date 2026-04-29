@@ -3,9 +3,7 @@
 
 // two entry points into file
 // read and write only , no update directly or delete directly
-// [x] TODO: the id functionality isn't working as it suppose to be
 
-use std::env::var;
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 use std::fs::OpenOptions;
@@ -23,6 +21,7 @@ struct Contact {
 }
 // i guess no need for this right now
 enum ContactTypes {
+    Id(u64),
     FullName(String),
     Number(String),
     Address(String),
@@ -51,6 +50,7 @@ impl Contact {
     fn update(&mut self, field: ContactTypes) {
         match field {
             ContactTypes::FullName(val) => self.full_name = val,
+            ContactTypes::Id(val) => self.id = val,
             ContactTypes::Address(val) => self.address = val,
             ContactTypes::Email(val) => self.email = val,
             ContactTypes::Number(val) => self.number = val,
@@ -58,9 +58,7 @@ impl Contact {
     }
 }
 
-
 pub fn manager() {
-    let mut id = 1;
     println!("welcome to contact manager");
     let path = "assets/contacts.json";
     loop {
@@ -102,26 +100,122 @@ pub fn manager() {
                 stdin()
                     .read_line(&mut number)
                     .expect("ERROR reading the input ");
+                let mut contacts = read_file(&path);
+                let id = (contacts.len() + 1) as u64;
                 let contact = Contact::new(
                     id,
                     full_name.trim().to_string(),
-                    number,
+                    number.trim().to_string(),
                     address.trim().to_string(),
                     email.trim().to_string(),
                 );
 
-                let mut contacts = read_file(&path);
                 contacts.push(contact);
                 write_file(&contacts, path);
-                id += 1;
             }
             "2" => print(&read_file(&path)),
             "3" => {
+                clear_linux_terminal();
+                let mut contacts = read_file(&path);
+                print!("select the id of the task : ");
+                let _ = stdout().flush();
+                let mut input = String::new();
+                stdin()
+                    .read_line(&mut input)
+                    .expect("ERROR reading the input ");
+                let id = if let Ok(id) = input.trim().parse::<usize>() {
+                    id - 1
+                } else {
+                    println!("please enter a valid input;");
+                    continue;
+                };
+                println!(
+                    "what do u want to change\n\t1-full name\n\t2-address\n\t3-number\n\t4-email"
+                );
+                print!("option : ");
+                let _ = stdout().flush();
+                let mut choice = String::new();
+                stdin()
+                    .read_line(&mut choice)
+                    .expect("ERROR reading the input ");
+                match choice.trim() {
+                    "1" => {
+                        print!("full name: ");
+                        let _ = stdout().flush();
+                        let mut full_name = String::new();
+                        stdin()
+                            .read_line(&mut full_name)
+                            .expect("ERROR reading the input ");
 
+                        contacts[id].update(ContactTypes::FullName(full_name.trim().to_string()));
+                        println!("the contact updated successfully");
+                        write_file(&contacts, path);
+                        print(&read_file(&path))
+                    }
+                    "2" => {
+                        print!("address: ");
+                        let _ = stdout().flush();
+                        let mut address = String::new();
+                        stdin()
+                            .read_line(&mut address)
+                            .expect("ERROR reading the input ");
 
+                        contacts[id].update(ContactTypes::FullName(address.trim().to_string()));
+                        println!("the contact updated successfully");
+                        write_file(&contacts, path);
+                        print(&read_file(&path))
+                    }
+                    "3" => {
+                        print!("number: ");
+                        let _ = stdout().flush();
+                        let mut number = String::new();
+                        stdin()
+                            .read_line(&mut number)
+                            .expect("ERROR reading the input ");
 
-            },
-            "4" => todo!(),
+                        contacts[id].update(ContactTypes::FullName(number.trim().to_string()));
+                        println!("the contact updated successfully");
+                        write_file(&contacts, path);
+                        print(&read_file(&path))
+                    }
+                    "4" => {
+                        print!("email: ");
+                        let _ = stdout().flush();
+                        let mut email = String::new();
+                        stdin()
+                            .read_line(&mut email)
+                            .expect("ERROR reading the input ");
+
+                        contacts[id].update(ContactTypes::FullName(email.trim().to_string()));
+                        println!("the contact updated successfully");
+                        write_file(&contacts, path);
+                        print(&read_file(&path))
+                    }
+                    _ => {
+                        println!("please provide a valid option from above");
+                        continue;
+                    }
+                }
+            }
+            "4" => {
+                clear_linux_terminal();
+                let mut contacts = read_file(&path);
+                print!("select the id of the task : ");
+                let _ = stdout().flush();
+                let mut input = String::new();
+                stdin()
+                    .read_line(&mut input)
+                    .expect("ERROR reading the input ");
+                let id = if let Ok(id) = input.trim().parse::<usize>() {
+                    id - 1
+                } else {
+                    println!("please enter a valid input;");
+                    continue;
+                };
+                contacts.remove(id);
+                rearrange(&mut contacts);
+                write_file(&contacts, path)
+            }
             "5" => break,
 
             _ => {
@@ -171,5 +265,10 @@ fn clear_linux_terminal() {
         return;
     } else {
         let _ = Command::new("clear").status();
+    }
+}
+fn rearrange(contacts: &mut Vec<Contact>) {
+    for (i, contact) in contacts.iter_mut().enumerate() {
+        contact.update(ContactTypes::Id(i as u64))
     }
 }

@@ -3,32 +3,36 @@
 
 // two entry points into file
 // read and write only , no update directly or delete directly
+// TODO: the id functionality isn't working as it suppose to be
 
+use std::env::var;
 use serde::{Deserialize, Serialize};
-use std::fmt::{Display};
+use std::fmt::Display;
 use std::fs::OpenOptions;
 use std::io::{BufReader, BufWriter, Write, stdin, stdout};
 use std::process::Command;
-use std::sync::atomic::{AtomicUsize, Ordering};
-
-static GLOBAL_ID_COUNTER: AtomicUsize = AtomicUsize::new(1);
 // define the structure of contact
 
 #[derive(Serialize, Deserialize)]
 struct Contact {
-    id: usize,
+    id: u64,
     full_name: String,
-    number: u32,
+    number: String,
     address: String,
     email: String,
 }
 // i guess no need for this right now
-
+enum ContactTypes {
+    FullName(String),
+    Number(String),
+    Address(String),
+    Email(String),
+}
 impl Contact {
     // create
-    fn new(full_name: String, number: u32, address: String, email: String) -> Self {
+    fn new(id: u64, full_name: String, number: String, address: String, email: String) -> Self {
         Contact {
-            id: GLOBAL_ID_COUNTER.fetch_add(1, Ordering::Relaxed),
+            id,
             full_name,
             number,
             address,
@@ -44,9 +48,19 @@ impl Contact {
         println!("\temail: {}", self.email);
     }
     // update
+    fn update(&mut self, field: ContactTypes) {
+        match field {
+            ContactTypes::FullName(val) => self.full_name = val,
+            ContactTypes::Address(val) => self.address = val,
+            ContactTypes::Email(val) => self.email = val,
+            ContactTypes::Number(val) => self.number = val,
+        }
+    }
 }
 
+
 pub fn manager() {
+    let mut id = 1;
     println!("welcome to contact manager");
     let path = "assets/contacts.json";
     loop {
@@ -88,15 +102,25 @@ pub fn manager() {
                 stdin()
                     .read_line(&mut number)
                     .expect("ERROR reading the input ");
-                let number: u32 = number.trim().parse().unwrap();
-                let contact = Contact::new(full_name.trim().to_string(), number, address.trim().to_string(), email.trim().to_string());
+                let contact = Contact::new(
+                    id,
+                    full_name.trim().to_string(),
+                    number,
+                    address.trim().to_string(),
+                    email.trim().to_string(),
+                );
 
                 let mut contacts = read_file(&path);
                 contacts.push(contact);
                 write_file(&contacts, path);
+                id += 1;
             }
             "2" => print(&read_file(&path)),
-            "3" => todo!(),
+            "3" => {
+
+
+
+            },
             "4" => todo!(),
             "5" => break,
 

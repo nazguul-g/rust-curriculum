@@ -16,3 +16,5 @@ pub mod pj14_file_reader_cli;
 pub mod pj15_memory_management;
 pub mod pj16_string_manipulation_tool;
 pub mod pj17_contact_manager;
+mod pj18_linkedlists_implementation;
+mod pj19_simple_ai_chat_application;

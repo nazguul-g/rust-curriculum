@@ -3,7 +3,7 @@
 
 // two entry points into file
 // read and write only , no update directly or delete directly
-// TODO: the id functionality isn't working as it suppose to be
+// [x] TODO: the id functionality isn't working as it suppose to be
 
 use std::env::var;
 use serde::{Deserialize, Serialize};

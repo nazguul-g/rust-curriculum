@@ -15,4 +15,4 @@ pub mod pj13_json_parser;
 pub mod pj14_file_reader_cli;
 pub mod pj15_memory_management;
 pub mod pj16_string_manipulation_tool;
-mod pj17_contact_manager;
+pub mod pj17_contact_manager;

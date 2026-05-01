@@ -1,10 +1,10 @@
-use crate::pjs::bot::history::{ChatHistory};
+use crate::pjs::bot::history::ChatHistory;
 use crate::pjs::bot::responses::RESPONSES;
+use chrono::Local;
 use std::collections::HashMap;
 use std::io;
 use std::io::{Write, stdin, stdout};
 use std::process::Command;
-use chrono::Local;
 static PATH: &str = "assets/chatbot_history.json";
 
 struct Chatbot {
@@ -28,7 +28,10 @@ impl Chatbot {
             self.history.save(PATH).unwrap();
             response
         } else {
-            self.history.add_entry(&timestamp, user, "I'm not sure how to respond to that.");
+            self.history.add_entry(&timestamp, "You", message);
+
+            self.history
+                .add_entry(&timestamp, user, "I'm not sure how to respond to that.");
             self.history.save(PATH).unwrap();
             "I'm not sure how to respond to that.".to_string()
         }
@@ -42,23 +45,24 @@ pub fn chat_app() -> io::Result<()> {
         stdout().flush()?;
         let mut input = String::new();
         stdin().read_line(&mut input)?;
-        match input.trim().to_lowercase().as_str() {
+        let input = input.trim();
+        match input.to_lowercase().as_str() {
             "clear" => {
+                Command::new("clear").status()?;
                 chatbot.history.clear(PATH)?;
                 println!("history has been cleared");
-                continue
+                continue;
             }
             "quit" => {
                 chatbot.history.save(PATH)?;
                 break;
             }
             "history" => {
-                Command::new("clear").status()?;
                 chatbot.history.print();
-                continue
+                continue;
             }
             _ => {
-                println!("Bot: {}",chatbot.process_message(&input));
+                println!("Bot: {}", chatbot.process_message(&input));
                 continue;
             }
         }

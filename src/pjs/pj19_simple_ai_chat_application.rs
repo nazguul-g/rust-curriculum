@@ -19,6 +19,7 @@ impl Chatbot {
         }
     }
     fn process_message(&mut self, message: &str) -> String {
+        // todo : add simple fuzzy entries
         let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
         let user = "Bot";
         if self.responses.contains_key(message) {
@@ -47,6 +48,7 @@ pub fn chat_app() -> io::Result<()> {
         stdin().read_line(&mut input)?;
         let input = input.trim();
         match input.to_lowercase().as_str() {
+            // TODO: add helper entry
             "clear" => {
                 Command::new("clear").status()?;
                 chatbot.history.clear(PATH)?;
@@ -58,6 +60,7 @@ pub fn chat_app() -> io::Result<()> {
                 break;
             }
             "history" => {
+                //TODO: this isn't functional when the bot isn't initialized
                 chatbot.history.print();
                 continue;
             }

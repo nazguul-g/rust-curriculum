@@ -29,7 +29,7 @@ pub fn toml_parser() -> io::Result<()> {
         stdin().read_line(&mut input)?;
         match input.trim().to_lowercase().as_str() {
             "exit" => break,
-            x if std::fs::exists(input)? => todo!(),
+            path if std::fs::exists(input)? => todo!(),
             _ => {
                 println!("please enter a valid path ");
                 continue

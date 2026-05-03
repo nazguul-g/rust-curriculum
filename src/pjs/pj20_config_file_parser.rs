@@ -17,7 +17,26 @@
 
 // static path
 
-pub fn toml_parser(){
+use std::io;
+use std::io::{stdin, stdout, Write};
 
+pub fn toml_parser() -> io::Result<()> {
+    println!("welcome to toml parser");
+    loop {
+        print!("enter the file path or \"exit\" to proceed: ");
+        stdout().flush()?;
+        let mut input = String::new();
+        stdin().read_line(&mut input)?;
+        match input.trim().to_lowercase().as_str() {
+            "exit" => break,
+            x if std::fs::exists(input)? => todo!(),
+            _ => {
+                println!("please enter a valid path ");
+                continue
+            }
 
+        }
+
+    }
+    Ok(())
 }

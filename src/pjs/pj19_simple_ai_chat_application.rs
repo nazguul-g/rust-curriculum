@@ -49,6 +49,7 @@ pub fn chat_app() -> io::Result<()> {
         let input = input.trim();
         match input.to_lowercase().as_str() {
             // TODO: add helper entry
+            "helper" => todo!(),
             "clear" => {
                 Command::new("clear").status()?;
                 chatbot.history.clear(PATH)?;

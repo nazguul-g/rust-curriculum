@@ -26,6 +26,7 @@ impl Config {
         } else {
             return Err("error getting the pattern");
         };
+        // we need to set the env to ignore case
         let case_sensitive = std::env::var("IGNORE_CASE").is_ok();
         Ok(Config {
             pattern,

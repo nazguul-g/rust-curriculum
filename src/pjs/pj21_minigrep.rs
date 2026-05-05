@@ -29,7 +29,7 @@ pub fn grep() {
     }) {
         return;
     }
-
+    let mut found = false;
     let file = OpenOptions::new().read(true).open(filepath).unwrap();
     let reader = BufReader::new(file);
     for (number, line) in reader.lines().enumerate() {
@@ -42,7 +42,14 @@ pub fn grep() {
         };
         let number = number + 1;
         if line.contains(searchstring) {
-            println!("[line #{}]: {}",number,line)
+            println!("[line #{}]: {}",number,line);
+            found = true;
         }
     }
+    if !found {
+        println!("we didnt find any match at the given path")
+    }
+
 }
+
+

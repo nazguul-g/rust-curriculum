@@ -21,4 +21,4 @@ pub mod pj19_simple_ai_chat_application;
 pub mod bot;
 pub mod pj20_config_file_parser;
 pub mod pj21_minigrep;
-pub mod pj22_better_minigrep;
+pub mod pj21_minigrep_betterversion;

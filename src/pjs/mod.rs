@@ -22,3 +22,4 @@ pub mod bot;
 pub mod pj20_config_file_parser;
 pub mod pj21_minigrep;
 pub mod pj21_minigrep_betterversion;
+pub mod pj22_logger_utility;

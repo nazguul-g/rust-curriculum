@@ -26,3 +26,4 @@ pub mod pj22_logger_utility;
 pub mod pj23_data_validation_pool;
 mod pj24_generic_binary_search_cli;
 pub mod pj25_trait_plugin_using_dynamic_dispatch;
+pub mod pj26_polymorphic_shape_renderer;

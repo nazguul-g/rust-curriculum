@@ -16,39 +16,40 @@ fn prompt(message: &str) -> String {
     input.trim().to_string()
 }
 pub fn bsearch_cli() {
-    let number_vec: Vec<i32> = (0..50).map(|i| i * 5).collect();
-    let string_vec: Vec<&str> = vec!["nazguul", "banana", "apple", "orange", "fruit"];
+    let _: Vec<i32> = (0..50).map(|i| i * 5).collect();
+    let _: Vec<&str> = vec!["nazguul", "banana", "apple", "orange", "fruit"];
 }
 // generic function
-fn binary_search<T>(vector: &[T], target: T) -> (bool, usize) {
-    let mut min = 0;
-    let mut max = vector.len();
-
-    while min < max {
-        let mid = min + (max - min) / 2;
-
-        if vector[mid] == target {
-            return (true, mid);
-        } else if vector[mid] < target {
-            min = mid + 1;
-        } else {
-            max = mid;
-        }
+fn binary_search <T: std::cmp::PartialEq + std::cmp::PartialOrd> (array: &[T], target: &T) -> Option<usize> {
+    if array.is_empty() {
+        return None;
     }
 
-    (false, 0)
+    let mut min = 0;
+    let mut max = array.len() - 1;
+
+    while min <= max {
+        let mid = min + (max - min) / 2;
+        if *target == array[mid] {
+            return Some(mid);
+        } else if array[mid] > *target {
+            max = mid - 1;
+        } else {  // array[mid] < *target
+            min = mid + 1;
+        }
+    }
+    None
 }
 
 #[test]
-fn test () {
+fn test() {
     let number_vec: Vec<i32> = (0..50).map(|i| i * 5).collect();
-    println!("{:?}",number_vec);
+    println!("{:?}", number_vec);
     //let vector = vec![1, 2, 3, 4, 5];
-    let string_vec: Vec<&str> = vec!["nazguul", "banana", "apple", "orange", "fruit"];
-    println!("{:?}",string_vec);
+    let mut string_vec: Vec<&str> = vec!["nazguul", "banana", "apple", "orange", "fruit"];
+    string_vec.sort();
+    println!("{:?}", string_vec);
 
-    println!("{:?}", binary_search(&number_vec, 1));
-    println!("{:?}", binary_search(&string_vec, "banana"));
-
-
+    println!("{:?}", binary_search(&number_vec, &245));
+    println!("{:?}", binary_search(&string_vec, &"banana"));
 }

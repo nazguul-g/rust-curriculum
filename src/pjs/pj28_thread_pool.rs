@@ -1,9 +1,13 @@
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::{Arc, Mutex, mpsc};
-use std::thread::{JoinHandle, spawn};
+use std::thread;
+use std::thread::{JoinHandle};
+use std::time::Duration;
 
+
+
+type Job = Box<dyn Send + FnOnce() + 'static>;
 // we don't know what the task is
-type Task = Box<dyn FnOnce() + Send + 'static>; // safe to transfer across threads
 // Send is a trait bound  makes the type safer send between threads
 // dyn for letting runtime decide size
 // FnOnce() makes task used only one time in the thread
@@ -16,56 +20,94 @@ type Task = Box<dyn FnOnce() + Send + 'static>; // safe to transfer across threa
 // task2 explicitly includes Send in the trait object
 // the Box have points to a type its bound is Send
 
-struct ThreadPool {
-    // each worker is responsible for a task
-    workers: Vec<Worker>,
-
-    // we send the task into threads
-    sender: Option<Sender<Task>>,
-}
 struct Worker {
-    handle: JoinHandle<()>,
     id: usize,
+    handle: Option<JoinHandle<()>>,
 }
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<Receiver<Task>>>) -> Self {
-        let thread = spawn(move || {
+    fn new(id: usize, receiver: Arc<Mutex<Receiver<Job>>>) -> Self {
+        let thread = thread::spawn(move || {
             loop {
-                let task = { receiver.lock().unwrap().recv().unwrap() };
-                println!(" worker {} got a job", id);
-                task();
+                let message = {
+                    if let Ok(guard) = receiver.lock() {
+                        guard.recv()
+                    } else {
+                        eprintln!("error unlocking mutex");
+                        break;
+                    }
+                };
+                match message {
+                    Ok(job) => {
+                        println!("worker {id} received a job");
+                        job()
+                    }
+                    Err(_) => {
+                        eprintln!("no message received , shutting down thread {id}");
+                        break;
+                    }
+                }
             }
         });
-        Worker { handle: thread, id }
+        Worker {
+            handle: Some(thread),
+            id,
+        }
     }
 }
+
+struct ThreadPool {
+    workers: Vec<Worker>,
+    sender: Option<Sender<Job>>,
+}
+
 impl ThreadPool {
-    // how many worker do we need as input param
     fn new(size: usize) -> Self {
         let (tx, rx) = mpsc::channel();
-        // wrap up the receiver to be shared across threads
         let receiver = Arc::new(Mutex::new(rx));
-        let workers = (0..size)
-            .map(|id| {
-                let worker = Worker::new(id, Arc::clone(&receiver));
-                worker
-            })
-            .collect();
+        let mut workers = Vec::new();
+
+        for id in 0..size {
+            let worker = Worker::new(id, Arc::clone(&receiver));
+            workers.push(worker)
+        }
+
         ThreadPool {
             workers,
             sender: Some(tx),
         }
-        // returns x size of workers with the sender channel
     }
-    fn execute(&self, task: Task) {
-        self.sender.as_ref().unwrap().send(task).unwrap()
+    fn execute<F>(&self, f: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+        let sender = if let Some(sender) = &self.sender {
+            sender
+        } else {
+            eprintln!("found no sender");
+            return;
+        };
+
+        match sender.send(Box::new(f)) {
+            Ok(_) => {
+                println!("sent job to worker ");
+            }
+            Err(_) => {
+                eprintln!("failed to send job")
+            }
+        }
     }
 }
+
 impl Drop for ThreadPool {
     fn drop(&mut self) {
-        self.sender = self.sender.take();
-    }
+        self.sender.take();
 
+        for worker in &mut self.workers {
+            if let Some(handle) = worker.handle.take() {
+                let _ = handle.join();
+            }
+        }
+    }
 }
 
 pub fn thread_pool() {
@@ -74,5 +116,6 @@ pub fn thread_pool() {
         for x in 0..5 {
             println!("{x}")
         }
-    }))
+    }));
+    thread::sleep(Duration::from_secs(1))
 }

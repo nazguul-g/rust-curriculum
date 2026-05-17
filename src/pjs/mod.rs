@@ -29,3 +29,4 @@ pub mod pj25_trait_plugin_using_dynamic_dispatch;
 pub mod pj26_polymorphic_shape_renderer;
 pub mod pj27_multi_threaded_counter;
 pub mod pj28_thread_pool;
+pub mod pj29_simple_parallel_web_crawler;

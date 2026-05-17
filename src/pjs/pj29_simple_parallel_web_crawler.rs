@@ -32,10 +32,9 @@ pub fn crawler() {
                     }
 
                 };
-                println!("worker {} fetching {}.... ",i, url);
                 match fetch_url(&url) {
-                    Ok(status) => println!("✅ {} => {}", url, status),
-                    Err(e) => println!("❌ {} => {}", url, e),
+                    Ok(status) => println!("worker # {} , ✅ {} => {}",i, url, status),
+                    Err(e) => println!("worker # {} , ❌ {} => {}",i, url, e),
                 }
             }
 

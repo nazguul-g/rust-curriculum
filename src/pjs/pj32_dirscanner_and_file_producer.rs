@@ -93,7 +93,7 @@ fn file_builder(path: &Path, output: &Path) {
     let mut writer = BufWriter::new(output_file);
 
     let mut string = String::new();
-    reader.read_to_string(&mut string);
+    reader.read_to_string(&mut string).unwrap();
     write!(writer,"{}",string).unwrap();
     writer.flush().unwrap()
 }

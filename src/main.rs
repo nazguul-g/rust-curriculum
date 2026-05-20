@@ -5,6 +5,7 @@
 //use crate::pjs::pj3::calculator;
 
 use std::collections::HashMap;
+use std::io;
 use crate::concepts::dynamic_dispatch::dynamic;
 use crate::concurrency::thread_safe_counter::{ shared_counter_with_atomictype};
 use crate::pjs::pj21_minigrep::grep;
@@ -18,6 +19,7 @@ use crate::pjs::pj28_thread_pool::thread_pool;
 use crate::pjs::pj29_simple_parallel_web_crawler::crawler;
 use crate::pjs::pj30_producer_consumer_demo::producer_consumer;
 use crate::pjs::pj32_dirscanner_and_file_producer::dir;
+use crate::pjs::pj33_file_compression::compression_algo;
 
 mod pjs;
 mod concepts;
@@ -53,7 +55,11 @@ fn main() -> std::io::Result<()> {
     //crawler();
     // producer_consumer();
     //shared_counter_with_atomictype();
-    dir();
+    //dir();
+   if let Err(e) = compression_algo() {
+        eprintln!("Error: {}", e);
+        std::process::exit(1);
+    }
     
     Ok(())
 

@@ -32,3 +32,4 @@ pub mod pj28_thread_pool;
 pub mod pj29_simple_parallel_web_crawler;
 pub mod pj30_producer_consumer_demo;
 pub mod pj32_dirscanner_and_file_producer;
+pub mod pj33_file_compression;

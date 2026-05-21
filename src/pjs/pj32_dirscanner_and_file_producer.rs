@@ -84,6 +84,7 @@ fn file_builder(path: &Path, output: &Path) {
         .create(true)
         .open(output)
     {
+
         file
     } else {
         eprintln!("could not open the file {}", output.to_str().unwrap());

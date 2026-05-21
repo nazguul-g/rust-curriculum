@@ -13,6 +13,10 @@ pub enum CompressionError {
     InvalidChoice,
     InvalidExtension,
 }
+enum Kind {
+    Compress,
+    Decompress
+}
 impl Display for CompressionError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -29,8 +33,7 @@ impl From<io::Error> for CompressionError {
     }
 }
 pub fn compression_algo() -> Result<(), CompressionError> {
-    let decompress_output= "/mnt/workspace/Projects/ms-projects/compressed.mp3";
-    let compress_output= "/mnt/workspace/Projects/ms-projects/compressed.mp3.gz";
+    let output_path= "/mnt/workspace/Projects/ms-projects/assets";
     println!("compression algorithm");
     println!("decide an operation\n\t1-Compress file\n\t2-Decompress fle");
     loop {
@@ -39,11 +42,11 @@ pub fn compression_algo() -> Result<(), CompressionError> {
             "1" => {
 
                 let path = get_valid_path("enter file path to compress", false)?;
-                compress(&path, &Path::new(compress_output))?
+                compress(&path, &Path::new(output_path))?
             },
             "2" => {
                  let path = get_valid_path("enter file path to compress", true)?;
-                compress(&path, &Path::new(decompress_output))?
+                decompress(&path, &Path::new(output_path))?
             },
             _ => {
                 println!("invalid input try again");
@@ -74,12 +77,19 @@ fn get_valid_path(prompt: &str, is_output: bool) -> Result<PathBuf, CompressionE
 }
 fn compress(path: &Path, output_path: &Path) -> Result<(), CompressionError> {
     let file = std::fs::File::open(path)?;
+    let file_name = path.file_name().unwrap();
+    let file_extension = path.extension().unwrap();
+    let mut output = output_path.to_path_buf();
+    output.push(file_name);
+    output.set_extension(file_extension);
+    output.add_extension("gz");
+    println!("{:?}", output);
     let mut reader = BufReader::new(file);
     let output_file = OpenOptions::new()
         .truncate(true)
         .create(true)
         .write(true)
-        .open(output_path)?;
+        .open(output)?;
     let writer = BufWriter::new(output_file);
     let mut encoder= GzEncoder::new(writer, Compression::default());
     io::copy(&mut reader, &mut encoder)?;
@@ -91,16 +101,23 @@ fn decompress(path: &Path, output_path: &Path) -> Result<(), CompressionError> {
     if path.extension().and_then(|s| s.to_str()) != Some("gz") {
        return  Err(CompressionError::InvalidExtension)
     }
+    let file_name = path.file_name().unwrap();
+    let mut output = output_path.to_path_buf();
+    output.push(file_name);
+
+    output.set_extension("");
+    println!("{:?}", output);
     let file = std::fs::File::open(path)?;
     let  reader = BufReader::new(file);
     let output_file = OpenOptions::new()
         .truncate(true)
         .create(true)
         .write(true)
-        .open(output_path)?;
+        .open(output)?;
     let mut writer = BufWriter::new(output_file);
     let mut decoder= GzDecoder::new(reader);
     io::copy(&mut decoder, &mut writer)?;
 
     Ok(())
 }
+

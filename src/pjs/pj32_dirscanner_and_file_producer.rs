@@ -1,23 +1,31 @@
 use std::fs::{OpenOptions, read_dir};
-use std::io::{BufReader, BufWriter, Read, Write};
+use std::io::{stdin, stdout, BufReader, BufWriter, Read, Write};
 use std::path::Path;
 use std::process::exit;
 
 pub fn dir() {
-    let dir = "/mnt/workspace/Projects/ms-projects/src/pjs";
+    let dir = get_input("give me the path of directory: ");
     let path = Path::new(&dir);
     if path.exists() && path.is_dir() {
         println!("{}", path.to_str().unwrap());
 
         //scan_dir(&path, 0)
-        scan_dir_without(
+        scan_dir(
             path,
             0,
-            Path::new("/mnt/workspace/Projects/ms-projects/target"),
         )
     } else {
         println!("{} not a directory in file system", dir)
     }
+}
+
+fn get_input(message: &str) -> String {
+    print!("{}", message);
+    let _ =stdout().flush();
+    let mut input= String::new();
+    stdin().read_line(&mut input).unwrap();
+    let output = input.trim().to_string();
+    output
 }
 fn scan_dir(path: &Path, depth: usize) {
     if let Ok(entries) = read_dir(path) {
@@ -35,6 +43,10 @@ fn scan_dir(path: &Path, depth: usize) {
                     scan_dir(&entry.path(), depth + 1);
                 } else if filetype.is_file() {
                     println!("{}📄 {}", indent, pathname);
+                    file_builder(
+                        &entry.path(),
+                        Path::new("/mnt/workspace/Projects/ms-projects/assets/entire_dir_file.txt"),
+                    )
                 }
             }
         }
@@ -62,17 +74,17 @@ fn scan_dir_without(path: &Path, depth: usize, exclude: &Path) {
                     }
                 } else if filetype.is_file() {
                     println!("{}📄 {}", indent, pathname);
-                    file_builder(&entry.path(), Path::new("/mnt/workspace/Projects/ms-projects/assets/entire_dir_file.txt"))
+                    file_builder(
+                        &entry.path(),
+                        Path::new("/mnt/workspace/Projects/ms-projects/assets/entire_dir_file.txt"),
+                    )
                 }
             }
         }
     }
 }
 fn file_builder(path: &Path, output: &Path) {
-    let file = if let Ok(file) = OpenOptions::new()
-        .read(true)
-        .open(path)
-    {
+    let file = if let Ok(file) = OpenOptions::new().read(true).open(path) {
         file
     } else {
         eprintln!("could not open the file {}", path.to_str().unwrap());
@@ -84,7 +96,6 @@ fn file_builder(path: &Path, output: &Path) {
         .create(true)
         .open(output)
     {
-
         file
     } else {
         eprintln!("could not open the file {}", output.to_str().unwrap());
@@ -95,6 +106,6 @@ fn file_builder(path: &Path, output: &Path) {
 
     let mut string = String::new();
     reader.read_to_string(&mut string).unwrap();
-    write!(writer,"{}",string).unwrap();
+    write!(writer, "{}", string).unwrap();
     writer.flush().unwrap()
 }

@@ -20,6 +20,7 @@ use crate::pjs::pj29_simple_parallel_web_crawler::crawler;
 use crate::pjs::pj30_producer_consumer_demo::producer_consumer;
 use crate::pjs::pj32_dirscanner_and_file_producer::dir;
 use crate::pjs::pj33_file_compression::compression_algo;
+use crate::pjs::pj34_system_monitor::system_monitor;
 
 mod pjs;
 mod concepts;
@@ -56,11 +57,11 @@ fn main() -> std::io::Result<()> {
     // producer_consumer();
     //shared_counter_with_atomictype();
     //dir();
-   if let Err(e) = compression_algo() {
+/*   if let Err(e) = compression_algo() {
         eprintln!("Error: {}", e);
         std::process::exit(1);
-    }
-    
+    }*/
+    system_monitor();
     Ok(())
 
 }

@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use std::io;
 use crate::concepts::dynamic_dispatch::dynamic;
 use crate::concurrency::thread_safe_counter::{ shared_counter_with_atomictype};
+use crate::pjs::pj35_multi_threaded_file_copier::file_copier;
 use crate::pjs::pj21_minigrep::grep;
 use crate::pjs::pj21_minigrep_betterversion::minigrep;
 use crate::pjs::pj22_logger_utility::logger_util;
@@ -61,7 +62,8 @@ fn main() -> std::io::Result<()> {
         eprintln!("Error: {}", e);
         std::process::exit(1);
     }*/
-    system_monitor();
+    //system_monitor();
+    file_copier();
     Ok(())
 
 }

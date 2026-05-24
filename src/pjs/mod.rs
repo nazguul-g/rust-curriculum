@@ -35,3 +35,4 @@ pub mod pj32_dirscanner_and_file_producer;
 pub mod pj33_file_compression;
 pub mod pj34_system_monitor;
 pub mod pj35_multi_threaded_file_copier;
+pub mod pj36_csv_processor;

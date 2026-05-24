@@ -1,31 +1,29 @@
-
 #![allow(warnings)]
-
 //use pjs::pj2::temp_converter;
 //use crate::pjs::pj3::calculator;
-
-use std::collections::HashMap;
-use std::io;
 use crate::concepts::dynamic_dispatch::dynamic;
-use crate::concurrency::thread_safe_counter::{ shared_counter_with_atomictype};
-use crate::pjs::pj35_multi_threaded_file_copier::file_copier;
+use crate::concurrency::thread_safe_counter::shared_counter_with_atomictype;
 use crate::pjs::pj21_minigrep::grep;
 use crate::pjs::pj21_minigrep_betterversion::minigrep;
 use crate::pjs::pj22_logger_utility::logger_util;
 use crate::pjs::pj23_data_validation_pool::data_validation_util;
 use crate::pjs::pj25_trait_plugin_using_dynamic_dispatch::plugin;
 use crate::pjs::pj26_polymorphic_shape_renderer::polymorphic_shape;
-use crate::pjs::pj27_multi_threaded_counter::{multithreadedcounter};
+use crate::pjs::pj27_multi_threaded_counter::multithreadedcounter;
 use crate::pjs::pj28_thread_pool::thread_pool;
 use crate::pjs::pj29_simple_parallel_web_crawler::crawler;
 use crate::pjs::pj30_producer_consumer_demo::producer_consumer;
 use crate::pjs::pj32_dirscanner_and_file_producer::dir;
 use crate::pjs::pj33_file_compression::compression_algo;
 use crate::pjs::pj34_system_monitor::system_monitor;
+use crate::pjs::pj35_multi_threaded_file_copier::file_copier;
+use crate::pjs::pj36_csv_processor::csv;
+use std::collections::HashMap;
+use std::io;
 
-mod pjs;
 mod concepts;
 mod concurrency;
+mod pjs;
 
 fn main() -> std::io::Result<()> {
     //temp_converter()
@@ -57,13 +55,13 @@ fn main() -> std::io::Result<()> {
     //crawler();
     // producer_consumer();
     //shared_counter_with_atomictype();
-    //dir();
-/*   if let Err(e) = compression_algo() {
+    // dir();
+    /*   if let Err(e) = compression_algo() {
         eprintln!("Error: {}", e);
         std::process::exit(1);
     }*/
     //system_monitor();
-    file_copier();
+    // file_copier()?;
+    csv().unwrap();
     Ok(())
-
 }

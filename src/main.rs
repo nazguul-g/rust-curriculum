@@ -21,6 +21,7 @@ use crate::pjs::pj36_csv_processor::csv;
 use std::collections::HashMap;
 use std::io;
 use crate::pjs::pj37_file_encryption_tool::aes256ctr;
+use crate::pjs::pj38_process_manager::process_manager;
 
 mod concepts;
 mod concurrency;
@@ -64,6 +65,7 @@ fn main() -> std::io::Result<()> {
     //system_monitor();
     // file_copier()?;
     //csv().unwrap();
-    aes256ctr();
+    //aes256ctr();
+    process_manager();
     Ok(())
 }

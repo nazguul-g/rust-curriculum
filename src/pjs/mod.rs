@@ -36,3 +36,4 @@ pub mod pj33_file_compression;
 pub mod pj34_system_monitor;
 pub mod pj35_multi_threaded_file_copier;
 pub mod pj36_csv_processor;
+pub mod pj37_file_encryption_tool;

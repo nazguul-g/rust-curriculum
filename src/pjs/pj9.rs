@@ -1,4 +1,3 @@
-use std::fmt::from_fn;
 use std::io::{self, Write};
 
 pub fn prime_number() -> io::Result<()> {

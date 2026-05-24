@@ -20,6 +20,7 @@ use crate::pjs::pj35_multi_threaded_file_copier::file_copier;
 use crate::pjs::pj36_csv_processor::csv;
 use std::collections::HashMap;
 use std::io;
+use crate::pjs::pj37_file_encryption_tool::aes256ctr;
 
 mod concepts;
 mod concurrency;
@@ -62,6 +63,7 @@ fn main() -> std::io::Result<()> {
     }*/
     //system_monitor();
     // file_copier()?;
-    csv().unwrap();
+    //csv().unwrap();
+    aes256ctr();
     Ok(())
 }

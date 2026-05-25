@@ -18,11 +18,12 @@ use crate::pjs::pj33_file_compression::compression_algo;
 use crate::pjs::pj34_system_monitor::system_monitor;
 use crate::pjs::pj35_multi_threaded_file_copier::file_copier;
 use crate::pjs::pj36_csv_processor::csv;
-use std::collections::HashMap;
-use std::io;
 use crate::pjs::pj37_file_encryption_tool::aes256ctr;
 use crate::pjs::pj38_process_manager::process_manager;
 use crate::pjs::pj39_tcp_server::tcp_server;
+use crate::pjs::pj40_tcp_client::tcp_client;
+use std::collections::HashMap;
+use std::io;
 
 mod concepts;
 mod concurrency;
@@ -46,28 +47,25 @@ fn main() -> std::io::Result<()> {
     //manager();
     //chat_app()?;
     //toml_parser()?;
-
     //minigrep();
     //logger_util();
     //data_validation_util();
     //plugin();
-    // polymorphic_shape();
+    //polymorphic_shape();
     //multithreadedcounter();
     // thread_pool();
     //dynamic();
     //crawler();
-    // producer_consumer();
+    //producer_consumer();
     //shared_counter_with_atomictype();
-     //dir();
-    /*   if let Err(e) = compression_algo() {
-        eprintln!("Error: {}", e);
-        std::process::exit(1);
-    }*/
+    //dir();
+    //compression_algo() {
     //system_monitor();
-    // file_copier()?;
+    //file_copier()?;
     //csv().unwrap();
     //aes256ctr();
     //process_manager();
-    tcp_server()?;
+    //tcp_server()?;
+    //tcp_client()?;
     Ok(())
 }

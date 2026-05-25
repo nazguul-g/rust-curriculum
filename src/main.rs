@@ -22,6 +22,7 @@ use std::collections::HashMap;
 use std::io;
 use crate::pjs::pj37_file_encryption_tool::aes256ctr;
 use crate::pjs::pj38_process_manager::process_manager;
+use crate::pjs::pj39_tcp_server::tcp_server;
 
 mod concepts;
 mod concurrency;
@@ -57,7 +58,7 @@ fn main() -> std::io::Result<()> {
     //crawler();
     // producer_consumer();
     //shared_counter_with_atomictype();
-    // dir();
+     //dir();
     /*   if let Err(e) = compression_algo() {
         eprintln!("Error: {}", e);
         std::process::exit(1);
@@ -66,6 +67,7 @@ fn main() -> std::io::Result<()> {
     // file_copier()?;
     //csv().unwrap();
     //aes256ctr();
-    process_manager();
+    //process_manager();
+    tcp_server()?;
     Ok(())
 }

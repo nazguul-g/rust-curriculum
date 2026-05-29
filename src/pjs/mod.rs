@@ -41,3 +41,5 @@ pub mod pj38_process_manager;
 pub mod pj39_tcp_server;
 pub mod pj40_tcp_client;
 pub mod pj41_multi_client_chat_server;
+pub mod pj42_http_request_parser;
+pub mod pj43_rest_api_consumer;

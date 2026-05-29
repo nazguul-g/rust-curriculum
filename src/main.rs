@@ -25,6 +25,8 @@ use crate::pjs::pj40_tcp_client::tcp_client;
 use std::collections::HashMap;
 use std::io;
 use crate::pjs::pj41_multi_client_chat_server::chat_server;
+use crate::pjs::pj42_http_request_parser::http_parser;
+use crate::pjs::pj43_rest_api_consumer::rest_api;
 
 mod concepts;
 mod concurrency;
@@ -68,6 +70,8 @@ fn main() -> std::io::Result<()> {
     //process_manager();
     //tcp_server()?;
     //tcp_client()?;
-    chat_server()?;
+    //chat_server()?;
+    //http_parser()?;
+    rest_api();
     Ok(())
 }

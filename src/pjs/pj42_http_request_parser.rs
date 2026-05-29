@@ -18,6 +18,7 @@ use std::{io, thread};
 ///  <html>hello</html>
 /// ```
 
+
 // a server listens to client request and respond with http style
 pub fn http_parser() -> io::Result<()> {
     let listener = TcpListener::bind("127.0.0.1:8080")?;

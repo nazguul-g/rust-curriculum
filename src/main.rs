@@ -1,6 +1,6 @@
 #![allow(warnings)]
-//use pjs::pj2::temp_converter;
-//use crate::pjs::pj3::calculator;
+use pjs::pj2::temp_converter;
+use crate::pjs::pj3::calculator;
 use crate::concepts::dynamic_dispatch::dynamic;
 use crate::concurrency::thread_safe_counter::shared_counter_with_atomictype;
 use crate::pjs::pj21_minigrep::grep;
@@ -24,6 +24,7 @@ use crate::pjs::pj39_tcp_server::tcp_server;
 use crate::pjs::pj40_tcp_client::tcp_client;
 use std::collections::HashMap;
 use std::io;
+use crate::pjs::pj41_multi_client_chat_server::chat_server;
 
 mod concepts;
 mod concurrency;
@@ -53,7 +54,7 @@ fn main() -> std::io::Result<()> {
     //plugin();
     //polymorphic_shape();
     //multithreadedcounter();
-    // thread_pool();
+    //thread_pool();
     //dynamic();
     //crawler();
     //producer_consumer();
@@ -67,5 +68,6 @@ fn main() -> std::io::Result<()> {
     //process_manager();
     //tcp_server()?;
     //tcp_client()?;
+    chat_server()?;
     Ok(())
 }

@@ -90,6 +90,7 @@ fn file_builder(path: &Path, output: &Path) {
         eprintln!("could not open the file {}", path.to_str().unwrap());
         exit(0)
     };
+    let file_name = path.file_name().unwrap().to_string_lossy();
     let output_file = if let Ok(file) = OpenOptions::new()
         .append(true)
         .write(true)
@@ -106,6 +107,7 @@ fn file_builder(path: &Path, output: &Path) {
 
     let mut string = String::new();
     reader.read_to_string(&mut string).unwrap();
-    write!(writer, "{}", string).unwrap();
+    let asterisc = "*-".repeat(25);
+    write!(writer, "\n{}{file_name}{}\n{}\n",asterisc,asterisc, string).unwrap();
     writer.flush().unwrap()
 }

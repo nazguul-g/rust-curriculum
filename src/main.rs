@@ -26,7 +26,8 @@ use std::collections::HashMap;
 use std::io;
 use crate::pjs::pj41_multi_client_chat_server::chat_server;
 use crate::pjs::pj42_http_request_parser::http_parser;
-use crate::pjs::pj43_rest_api_consumer::rest_api;
+use crate::pjs::pj43_rest_api_consumer::random_joke;
+use crate::pjs::pj44_port_scanner::port_scanner;
 
 mod concepts;
 mod concurrency;
@@ -61,7 +62,8 @@ fn main() -> std::io::Result<()> {
     //crawler();
     //producer_consumer();
     //shared_counter_with_atomictype();
-    //dir();
+    //dir();(io::)
+    //     }
     //compression_algo() {
     //system_monitor();
     //file_copier()?;
@@ -72,6 +74,7 @@ fn main() -> std::io::Result<()> {
     //tcp_client()?;
     //chat_server()?;
     //http_parser()?;
-    rest_api();
+    //random_joke();
+    port_scanner();
     Ok(())
 }

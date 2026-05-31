@@ -28,6 +28,7 @@ use crate::pjs::pj41_multi_client_chat_server::chat_server;
 use crate::pjs::pj42_http_request_parser::http_parser;
 use crate::pjs::pj43_rest_api_consumer::random_joke;
 use crate::pjs::pj44_port_scanner::port_scanner;
+use crate::pjs::pj45_websocketserver::websockets;
 
 mod concepts;
 mod concurrency;
@@ -75,6 +76,7 @@ fn main() -> std::io::Result<()> {
     //chat_server()?;
     //http_parser()?;
     //random_joke();
-    port_scanner();
+    //port_scanner();
+    websockets();
     Ok(())
 }

@@ -26,4 +26,5 @@ env_logger = "0.11.10"
 tokio = { version = "1.52.3", features = ["rt", "rt-multi-thread", "macros"] }
 tokio-tungstenite = "0.29.0"
 futures-util = "0.3.32"
+termsize = "0.1.9"
 

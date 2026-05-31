@@ -29,6 +29,7 @@ use crate::pjs::pj42_http_request_parser::http_parser;
 use crate::pjs::pj43_rest_api_consumer::random_joke;
 use crate::pjs::pj44_port_scanner::port_scanner;
 use crate::pjs::pj45_websocketserver::websockets;
+use crate::pjs::pj46_cli_shell::cli_shell;
 
 mod concepts;
 mod concurrency;
@@ -77,6 +78,7 @@ fn main() -> std::io::Result<()> {
     //http_parser()?;
     //random_joke();
     //port_scanner();
-    websockets();
+    //websockets();
+    cli_shell();
     Ok(())
 }

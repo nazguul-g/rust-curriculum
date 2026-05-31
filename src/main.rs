@@ -30,6 +30,7 @@ use crate::pjs::pj43_rest_api_consumer::random_joke;
 use crate::pjs::pj44_port_scanner::port_scanner;
 use crate::pjs::pj45_websocketserver::websockets;
 use crate::pjs::pj46_cli_shell::cli_shell;
+use crate::pjs::pj47_text_editor::text_editor;
 
 mod concepts;
 mod concurrency;
@@ -79,6 +80,7 @@ fn main() -> std::io::Result<()> {
     //random_joke();
     //port_scanner();
     //websockets();
-    cli_shell();
+    //cli_shell();
+    text_editor();
     Ok(())
 }

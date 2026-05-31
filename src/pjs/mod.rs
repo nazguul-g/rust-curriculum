@@ -46,3 +46,4 @@ pub mod pj43_rest_api_consumer;
 pub mod pj44_port_scanner;
 pub mod pj45_websocketserver;
 pub mod pj46_cli_shell;
+pub mod pj47_text_editor;

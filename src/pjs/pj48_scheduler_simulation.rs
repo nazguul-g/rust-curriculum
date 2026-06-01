@@ -19,6 +19,7 @@ pub fn simulator() {
         name: "Close other windows".into(),
         delay: 1,
     };
+
     let mut tasks = vec![task3, task2, task1];
     tasks.sort_by_key(|t| t.delay);
     let start = Instant::now();

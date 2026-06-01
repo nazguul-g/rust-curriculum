@@ -32,6 +32,7 @@ use crate::pjs::pj45_websocketserver::websockets;
 use crate::pjs::pj46_cli_shell::cli_shell;
 use crate::pjs::pj47_text_editor::text_editor;
 use crate::pjs::pj48_scheduler_simulation::simulator;
+use crate::pjs::pj49_remote_file_sync_tool::remote_file_sync_tool;
 
 mod concepts;
 mod concurrency;
@@ -83,6 +84,7 @@ fn main() -> std::io::Result<()> {
     //websockets();
     //cli_shell();
     //text_editor();
-    simulator();
+    //simulator();
+    remote_file_sync_tool()?;
     Ok(())
 }

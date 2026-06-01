@@ -33,7 +33,7 @@ pub fn http_parser() -> io::Result<()> {
 }
 fn handle_client(mut stream: TcpStream) -> io::Result<()> {
     let mut buffer = [0; 1024];
-    stream.read(&mut buffer)?;
+    let _ = stream.read(&mut buffer)?;
     let request = String::from_utf8_lossy(&buffer);
     let lines: Vec<_> = request.lines().collect();
     if let Some(r_line) = lines.first() {

@@ -9,7 +9,7 @@ pub fn prime_number() -> io::Result<()> {
         io::stdout().flush()?;
         input_s.clear();
         io::stdin().read_line(&mut input_s)?;
-        match input_s.trim().parse::<usize>() {
+        match input_s.trim().parse::<isize>() {
             Ok(num) => {
                 if num < 0 {
                     println!("Invalid input, please enter a valid number.");
@@ -27,7 +27,7 @@ pub fn prime_number() -> io::Result<()> {
 
     Ok(())
 }
-fn is_primal (number :usize) -> bool {
+fn is_primal (number :isize) -> bool {
 
     match number {
         x if x < 2 => false,
@@ -48,7 +48,7 @@ fn is_primal (number :usize) -> bool {
         }
     }
 }
-fn primes_vector(number: usize) -> Vec<usize> {
+fn primes_vector(number: isize) -> Vec<isize> {
     let mut vector = Vec::new();
     for i in 0..=number {
         if is_primal(i) {

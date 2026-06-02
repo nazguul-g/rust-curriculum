@@ -24,6 +24,7 @@ use crate::pjs::pj39_tcp_server::tcp_server;
 use crate::pjs::pj40_tcp_client::tcp_client;
 use std::collections::HashMap;
 use std::io;
+use crate::concepts::actix_first::actix_fun;
 use crate::pjs::pj41_multi_client_chat_server::chat_server;
 use crate::pjs::pj42_http_request_parser::http_parser;
 use crate::pjs::pj43_rest_api_consumer::random_joke;
@@ -33,6 +34,7 @@ use crate::pjs::pj46_cli_shell::cli_shell;
 use crate::pjs::pj47_text_editor::text_editor;
 use crate::pjs::pj48_scheduler_simulation::simulator;
 use crate::pjs::pj49_remote_file_sync_tool::remote_file_sync_tool;
+use crate::pjs::pj50_hello_actix::hello_actix;
 
 mod concepts;
 mod concurrency;
@@ -67,7 +69,8 @@ fn main() -> std::io::Result<()> {
     //crawler();
     //producer_consumer();
     //shared_counter_with_atomictype();
-    //dir();(io::)
+    //dir();
+    // io::)
     //     }
     //compression_algo() {
     //system_monitor();
@@ -85,6 +88,9 @@ fn main() -> std::io::Result<()> {
     //cli_shell();
     //text_editor();
     //simulator();
-    remote_file_sync_tool()?;
+    //remote_file_sync_tool()?;
+    //hello_actix();
+    //actix_fun()?;
+    hello_actix();
     Ok(())
 }

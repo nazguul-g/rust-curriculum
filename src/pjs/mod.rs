@@ -49,3 +49,4 @@ pub mod pj46_cli_shell;
 pub mod pj47_text_editor;
 pub mod pj48_scheduler_simulation;
 pub mod pj49_remote_file_sync_tool;
+pub mod pj50_hello_actix;

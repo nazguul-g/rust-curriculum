@@ -35,6 +35,7 @@ use crate::pjs::pj47_text_editor::text_editor;
 use crate::pjs::pj48_scheduler_simulation::simulator;
 use crate::pjs::pj49_remote_file_sync_tool::remote_file_sync_tool;
 use crate::pjs::pj50_hello_actix::hello_actix;
+use crate::pjs::pj51_rest_api_server::rest_api_server;
 
 mod concepts;
 mod concurrency;
@@ -91,6 +92,7 @@ fn main() -> std::io::Result<()> {
     //remote_file_sync_tool()?;
     //hello_actix();
     //actix_fun()?;
-    hello_actix()?;
+    //hello_actix()?;
+    rest_api_server()?;
     Ok(())
 }

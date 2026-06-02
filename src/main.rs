@@ -91,6 +91,6 @@ fn main() -> std::io::Result<()> {
     //remote_file_sync_tool()?;
     //hello_actix();
     //actix_fun()?;
-    hello_actix();
+    hello_actix()?;
     Ok(())
 }

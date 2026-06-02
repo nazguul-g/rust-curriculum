@@ -72,7 +72,12 @@ async fn greet_form() -> impl Responder {
         "#,
         )
 }
-
+#[get("/metrics")]
+async fn metrics(data: web::Data<AppState>) -> impl Responder {
+    let mut count = data.visitors_counter.lock().unwrap();
+    *count += 1;
+    HttpResponse::Ok().body(format!("total visitors: {}", *count))
+}
 #[get("/api/greet")]
 async fn greet_api(
     data: web::Data<AppState>,
@@ -104,6 +109,7 @@ pub async fn hello_actix() -> io::Result<()> {
             .service(health_check)
             .service(greet_form)
             .service(greet_api)
+            .service(metrics)
             .default_service(web::route().to(not_found))
     })
     .bind(("127.0.0.1", 8080))?

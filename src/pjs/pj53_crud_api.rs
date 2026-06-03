@@ -60,7 +60,7 @@ async fn update_post(
 async fn delete_post(data: web::Data<AppState>, id: web::Path<u64>) -> impl Responder {
     let mut blogs = data.blogs.lock().unwrap();
     let id = id.into_inner();
-    if let Some(value) = blogs.remove(&id) {
+    if let Some(_) = blogs.remove(&id) {
         HttpResponse::Ok().body("blog post removed")
     } else {
         HttpResponse::NotFound().body("blog post not found")

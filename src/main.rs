@@ -36,6 +36,7 @@ use crate::pjs::pj48_scheduler_simulation::simulator;
 use crate::pjs::pj49_remote_file_sync_tool::remote_file_sync_tool;
 use crate::pjs::pj50_hello_actix::hello_actix;
 use crate::pjs::pj51_rest_api_server::rest_api_server;
+use crate::pjs::pj52_user_uthentication_api::auth_api;
 
 mod concepts;
 mod concurrency;
@@ -93,6 +94,7 @@ fn main() -> std::io::Result<()> {
     //hello_actix();
     //actix_fun()?;
     //hello_actix()?;
-    rest_api_server()?;
+    //rest_api_server()?;
+    auth_api()?;
     Ok(())
 }

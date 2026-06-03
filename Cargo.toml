@@ -28,4 +28,5 @@ tokio-tungstenite = "0.29.0"
 futures-util = "0.3.32"
 termsize = "0.1.9"
 actix-web = "4.13.0"
+bcrypt = "0.19.1"
 

@@ -52,3 +52,4 @@ pub mod pj49_remote_file_sync_tool;
 pub mod pj50_hello_actix;
 pub mod pj51_rest_api_server;
 pub mod pj52_user_uthentication_api;
+pub mod pj53_crud_api;

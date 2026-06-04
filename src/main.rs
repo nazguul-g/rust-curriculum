@@ -1,8 +1,8 @@
 #![allow(warnings)]
-use pjs::pj2::temp_converter;
-use crate::pjs::pj3::calculator;
+use crate::concepts::actix_first::actix_fun;
 use crate::concepts::dynamic_dispatch::dynamic;
 use crate::concurrency::thread_safe_counter::shared_counter_with_atomictype;
+use crate::pjs::pj3::calculator;
 use crate::pjs::pj21_minigrep::grep;
 use crate::pjs::pj21_minigrep_betterversion::minigrep;
 use crate::pjs::pj22_logger_utility::logger_util;
@@ -22,9 +22,6 @@ use crate::pjs::pj37_file_encryption_tool::aes256ctr;
 use crate::pjs::pj38_process_manager::process_manager;
 use crate::pjs::pj39_tcp_server::tcp_server;
 use crate::pjs::pj40_tcp_client::tcp_client;
-use std::collections::HashMap;
-use std::io;
-use crate::concepts::actix_first::actix_fun;
 use crate::pjs::pj41_multi_client_chat_server::chat_server;
 use crate::pjs::pj42_http_request_parser::http_parser;
 use crate::pjs::pj43_rest_api_consumer::random_joke;
@@ -38,6 +35,10 @@ use crate::pjs::pj50_hello_actix::hello_actix;
 use crate::pjs::pj51_rest_api_server::rest_api_server;
 use crate::pjs::pj52_user_uthentication_api::auth_api;
 use crate::pjs::pj53_crud_api::crud_api;
+use crate::pjs::pj54_jwt_authentication::jwt;
+use pjs::pj2::temp_converter;
+use std::collections::HashMap;
+use std::io;
 
 mod concepts;
 mod concurrency;
@@ -98,6 +99,7 @@ fn main() -> std::io::Result<()> {
     //rest_api_server()?;
 
     //auth_api()?;
-    crud_api()?;
+    //crud_api()?;
+    jwt()?;
     Ok(())
 }

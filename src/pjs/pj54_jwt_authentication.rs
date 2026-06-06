@@ -7,7 +7,7 @@ use serde_json::json;
 use std::io;
 use std::sync::Mutex;
 
-const SECRET_KEY: &[u8] = b"aranndomsecretkey";
+const SECRET_KEY: &[u8] = b"arandomsecretkey";
 struct AppState {
     users: Mutex<Vec<User>>,
 }
@@ -33,7 +33,7 @@ async fn login(data: web::Data<AppState>, req: web::Json<LoginRequest>) -> impl 
     let user_found = users
         .iter()
         .find(|user| user.username == credentials.username);
-    return if let Some(user) = user_found {
+    if let Some(user) = user_found {
         let is_ok = verify(&credentials.password, &user.hashed_password).unwrap();
         if !is_ok {
             return HttpResponse::Unauthorized().body("password is wrong");
@@ -51,7 +51,7 @@ async fn login(data: web::Data<AppState>, req: web::Json<LoginRequest>) -> impl 
         HttpResponse::Ok().json(json!(token))
     } else {
         HttpResponse::NotFound().body("user not found")
-    };
+    }
 }
 async fn protected(req: HttpRequest) -> impl Responder {
     let req_token = req
@@ -67,7 +67,7 @@ async fn protected(req: HttpRequest) -> impl Responder {
                 &validation,
             );
             return match data {
-                Ok(token) => HttpResponse::Ok().body("authorized"),
+                Ok(_) => HttpResponse::Ok().body("authorized"),
                 Err(_) => HttpResponse::Unauthorized().body("unauthorized"),
             };
         }
@@ -77,7 +77,6 @@ async fn protected(req: HttpRequest) -> impl Responder {
 
 #[actix_web::main]
 pub async fn jwt() -> io::Result<()> {
-    // didnt hash the pwd for educationel persposes, and reduce overhead
     let users = web::Data::new(AppState {
         users: Mutex::new(vec![User {
             username: "nazguul".to_string(),
@@ -91,7 +90,7 @@ pub async fn jwt() -> io::Result<()> {
             .route("/login", web::post().to(login))
             .route("/protected", web::post().to(protected))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("127.0.0.1", 5050))?
     .run()
     .await
 }

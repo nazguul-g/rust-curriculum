@@ -36,6 +36,7 @@ use crate::pjs::pj51_rest_api_server::rest_api_server;
 use crate::pjs::pj52_user_uthentication_api::auth_api;
 use crate::pjs::pj53_crud_api::crud_api;
 use crate::pjs::pj54_jwt_authentication::jwt;
+use crate::pjs::pj55_sqlite_integration_with_actix::sql_actix;
 use pjs::pj2::temp_converter;
 use std::collections::HashMap;
 use std::io;
@@ -100,6 +101,7 @@ fn main() -> std::io::Result<()> {
 
     //auth_api()?;
     //crud_api()?;
-    jwt()?;
+    //jwt()?;
+    sql_actix();
     Ok(())
 }

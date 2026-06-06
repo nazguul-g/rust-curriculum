@@ -30,4 +30,5 @@ termsize = "0.1.9"
 actix-web = "4.13.0"
 bcrypt = "0.19.1"
 jsonwebtoken = "10.4.0"
+sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "sqlite", "macros"] }
 

@@ -46,8 +46,21 @@ async fn add_todo(db: web::Data<PgPool>, json: web::Json<NewTodo>) -> impl Respo
         }
     }
 }
-async fn delete_todo(id: web::Path<u64>) -> impl Responder {
-    HttpResponse::Ok()
+async fn delete_todo(data: web::Data<PgPool>, id: web::Path<i32>) -> impl Responder {
+    let result = sqlx::query("delete from todos where id=$1")
+        .bind(id.into_inner())
+        .execute(data.get_ref())
+        .await;
+    match result {
+        Ok(result) => {
+            if result.rows_affected() > 0 {
+                HttpResponse::Ok().body("todo deleted")
+            } else {
+                HttpResponse::NotFound().body("todo not found ")
+            }
+        }
+        Err(_) => HttpResponse::InternalServerError().body("error updating the db "),
+    }
 }
 async fn update_todo(
     data: web::Data<PgPool>,
@@ -91,6 +104,7 @@ pub async fn postgresql_todo() -> io::Result<()> {
             .app_data(web::Data::new(db.clone()))
             .route("/add", post().to(add_todo))
             .route("/update/{id}", put().to(update_todo))
+            .route("/delete/{id}", web::delete().to(delete_todo))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

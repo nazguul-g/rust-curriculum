@@ -84,7 +84,7 @@ async fn update_todo(
     }
 }
 async fn fetch_todos(data: web::Data<PgPool>) -> impl Responder {
-    let result = sqlx::query_as::<_, Todo>("SELECT * from todos values order by id")
+    let result = sqlx::query_as::<_, Todo>("SELECT * from todos order by id")
         .fetch_all(data.get_ref())
         .await;
     match result {

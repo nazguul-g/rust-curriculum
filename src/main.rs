@@ -41,6 +41,7 @@ use pjs::pj2::temp_converter;
 use std::collections::HashMap;
 use std::io;
 use crate::pjs::pj56_postgresql_crud_app::postgresql_todo;
+use crate::pjs::pj57_postgresql_full_todo::full_postgresql_todo;
 
 mod concepts;
 mod concurrency;
@@ -104,6 +105,7 @@ fn main() -> std::io::Result<()> {
     //crud_api()?;
     //jwt()?;
     //sql_actix();
-    postgresql_todo();
+    //postgresql_todo();
+    full_postgresql_todo();
     Ok(())
 }

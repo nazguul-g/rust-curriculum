@@ -56,3 +56,4 @@ pub mod pj53_crud_api;
 pub mod pj54_jwt_authentication;
 pub mod pj55_sqlite_integration_with_actix;
 pub mod pj56_postgresql_crud_app;
+pub mod pj57_postgresql_full_todo;

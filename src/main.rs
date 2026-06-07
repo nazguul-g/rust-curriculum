@@ -40,6 +40,7 @@ use crate::pjs::pj55_sqlite_integration_with_actix::sql_actix;
 use pjs::pj2::temp_converter;
 use std::collections::HashMap;
 use std::io;
+use crate::pjs::pj56_postgresql_crud_app::postgresql_todo;
 
 mod concepts;
 mod concurrency;
@@ -102,6 +103,7 @@ fn main() -> std::io::Result<()> {
     //auth_api()?;
     //crud_api()?;
     //jwt()?;
-    sql_actix();
+    //sql_actix();
+    postgresql_todo();
     Ok(())
 }

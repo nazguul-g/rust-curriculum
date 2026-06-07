@@ -1,8 +1,9 @@
-use actix_web::web::post;
+use actix_web::web::{post, put};
 use actix_web::{App, HttpResponse, HttpServer, Responder, web};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use sqlx::{FromRow, PgPool};
+use sqlx::pool::PoolOptions;
+use sqlx::{FromRow, PgPool, Pool, Postgres};
 use std::io;
 
 #[derive(FromRow, Serialize, Deserialize)]
@@ -16,21 +17,33 @@ struct Todo {
 struct NewTodo {
     title: String,
 }
+#[derive(Serialize, Deserialize)]
+
 struct UpdateTodo {
     completed: bool,
 }
 async fn add_todo(db: web::Data<PgPool>, json: web::Json<NewTodo>) -> impl Responder {
+    println!("📥 Received request to add todo: {:?}", json.title);
+
     let result = sqlx::query_as::<_, Todo>("INSERT INTO todos (title) VALUES ($1) RETURNING *")
         .bind(&json.title)
         .fetch_one(db.get_ref())
         .await;
+
     match result {
-        Ok(todo) => HttpResponse::Created().json(json!({
-            "message":"todo added",
-            "id": todo.id,
-            "todo":todo,
-        })),
-        Err(_) => HttpResponse::InternalServerError().body("something wrong running the query"),
+        Ok(todo) => {
+            println!("✅ Todo added with id: {}", todo.id);
+            HttpResponse::Created().json(json!({
+                "message":"todo added",
+                "id": todo.id,
+                "todo":todo,
+            }))
+        }
+        Err(e) => {
+            println!("❌ Error: {}", e);
+            HttpResponse::InternalServerError()
+                .body(format!("something wrong running the query: {}", e))
+        }
     }
 }
 async fn delete_todo(id: web::Path<u64>) -> impl Responder {
@@ -38,10 +51,24 @@ async fn delete_todo(id: web::Path<u64>) -> impl Responder {
 }
 async fn update_todo(
     data: web::Data<PgPool>,
-    id: web::Path<u64>,
+    id: web::Path<i32>,
     json: web::Json<UpdateTodo>,
 ) -> impl Responder {
-    HttpResponse::Ok()
+    let result = sqlx::query("update todos set completed=$1 where id=$2")
+        .bind(&json.completed)
+        .bind(id.into_inner())
+        .execute(data.get_ref())
+        .await;
+    match result {
+        Ok(result) => {
+            if result.rows_affected() > 0 {
+                HttpResponse::Ok().body("todo updated")
+            } else {
+                HttpResponse::NotFound().body("todo not found ")
+            }
+        }
+        Err(_) => HttpResponse::InternalServerError().body("error updating the db "),
+    }
 }
 async fn fetch_todos(data: web::Data<PgPool>) -> impl Responder {
     HttpResponse::Ok()
@@ -49,15 +76,21 @@ async fn fetch_todos(data: web::Data<PgPool>) -> impl Responder {
 
 #[actix_web::main]
 pub async fn postgresql_todo() -> io::Result<()> {
-    let db_url = std::env::var("DATABASE_URL").expect("❌ DATABASE_URL not set");
-
-    let pool = PgPool::connect(&db_url)
+    //let db_url = std::env::var("DATABASE_URL").expect("❌ DATABASE_URL not set");
+    let url = "postgres://postgres:password@127.0.0.1:5433/todos";
+    let db = PgPool::connect(&url)
         .await
         .expect("failed to connect to DB");
+    // let db: Pool<Postgres> = PoolOptions::new()
+    //     .max_connections(5)
+    //     .connect_lazy(&url)
+    //     .expect("failed to connect to DB");
+    println!("connected to DB");
     HttpServer::new(move || {
         App::new()
-            .app_data(pool.clone())
-            .route("/add_todo", post().to(add_todo))
+            .app_data(web::Data::new(db.clone()))
+            .route("/add", post().to(add_todo))
+            .route("/update/{id}", put().to(update_todo))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

@@ -84,7 +84,13 @@ async fn update_todo(
     }
 }
 async fn fetch_todos(data: web::Data<PgPool>) -> impl Responder {
-    HttpResponse::Ok()
+    let result = sqlx::query_as::<_, Todo>("SELECT * from todos values order by id")
+        .fetch_all(data.get_ref())
+        .await;
+    match result {
+        Ok(Vec) => HttpResponse::Ok().json(Vec),
+        Err(_) => HttpResponse::InternalServerError().body("error updating the db "),
+    }
 }
 
 #[actix_web::main]
@@ -105,6 +111,7 @@ pub async fn postgresql_todo() -> io::Result<()> {
             .route("/add", post().to(add_todo))
             .route("/update/{id}", put().to(update_todo))
             .route("/delete/{id}", web::delete().to(delete_todo))
+            .route("/todos", web::get().to(fetch_todos))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

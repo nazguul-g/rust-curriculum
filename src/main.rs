@@ -37,11 +37,11 @@ use crate::pjs::pj52_user_uthentication_api::auth_api;
 use crate::pjs::pj53_crud_api::crud_api;
 use crate::pjs::pj54_jwt_authentication::jwt;
 use crate::pjs::pj55_sqlite_integration_with_actix::sql_actix;
+use crate::pjs::pj56_postgresql_crud_app::postgresql_todo;
+use crate::pjs::pj57_postgresql_full_todo::full_postgresql_todo;
 use pjs::pj2::temp_converter;
 use std::collections::HashMap;
 use std::io;
-use crate::pjs::pj56_postgresql_crud_app::postgresql_todo;
-use crate::pjs::pj57_postgresql_full_todo::full_postgresql_todo;
 
 mod concepts;
 mod concurrency;
@@ -92,6 +92,7 @@ fn main() -> std::io::Result<()> {
     //random_joke();
     //port_scanner();
     //websockets();
+
     //cli_shell();
     //text_editor();
     //simulator();
@@ -100,12 +101,12 @@ fn main() -> std::io::Result<()> {
     //actix_fun()?;
     //hello_actix()?;
     //rest_api_server()?;
-
     //auth_api()?;
     //crud_api()?;
     //jwt()?;
     //sql_actix();
     //postgresql_todo();
-    full_postgresql_todo();
+    //full_postgresql_todo();
+
     Ok(())
 }

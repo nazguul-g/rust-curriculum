@@ -3,11 +3,6 @@ name = "ms-projects"
 version = "0.1.0"
 edition = "2024"
 
-[workspace]
-members = [
-    "src/pjs/pj60_yew_chat_ui",
-]
-
 [dependencies]
 rand = "0.10.1"
 serde = { version = "1.0.228", features = ["derive"] }

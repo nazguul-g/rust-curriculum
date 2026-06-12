@@ -1,1 +1,1 @@
-### this repo contains projects proposed by microsoft rust learning repo
+### a repo contains exercices to explore rust ecosystem
